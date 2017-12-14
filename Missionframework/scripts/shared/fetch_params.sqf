@@ -45,7 +45,7 @@ if ( isMultiplayer ) then {
 	KP_liberation_alt_income = ["AltIncome", 0] call bis_fnc_getParamValue;
 	if ( KP_liberation_alt_income ) then {
 		KP_liberation_ailogistics = 0;
-	}
+	};
 } else {
 	GRLIB_difficulty_modifier = 2;
 	GRLIB_time_factor = 12;

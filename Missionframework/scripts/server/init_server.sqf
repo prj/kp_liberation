@@ -23,7 +23,7 @@ send_paratroopers = compileFinal preprocessFileLineNumbers "scripts\server\patro
 // resources
 if ( KP_liberation_alt_income ) then {
 	recalculate_caps = compileFinal preprocessFileLineNumbers "scripts\server\resources\recalculate_caps_alt.sqf";
-}
+};
 
 // Secondary objectives
 fob_hunting = compileFinal preprocessFileLineNumbers "scripts\server\secondary\fob_hunting.sqf";

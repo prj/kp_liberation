@@ -376,5 +376,5 @@ class Params
 		values[] = {0, 1};
 		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
 		default = 0;
-	}
+	};
 };

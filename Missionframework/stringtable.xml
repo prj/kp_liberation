@@ -5539,5 +5539,19 @@
 			<Chinesesimp>生产</Chinesesimp>
 			<Portuguese>Produção</Portuguese>
 		</Key>
+		<Key ID="STR_PARAMS_ALT_INCOME">
+			<Original>Alternative income</Original>
+			<German>Alternative income</German>
+			<Italian>Alternative income</Italian>
+			<Chinesesimp>Alternative income</Chinesesimp>
+			<Portuguese>Alternative income</Portuguese>
+		</Key>
+		<Key ID="STR_BOUNTY_MESSAGE">
+			<Original>Bounty of %1 for a %2 destroyed by %3</Original>
+			<German>Kopfgeld von %1 für die Zerstörung von %2 durch %3</German>
+			<Italian>Bounty of %1 for a %2 destroyed by %3</Italian>
+			<Chinesesimp>Bounty of %1 for a %2 destroyed by %3</Chinesesimp>
+			<Portuguese>Bounty of %1 for a %2 destroyed by %3</Portuguese>				
+		</Key>
 	</Package>
 </Project>

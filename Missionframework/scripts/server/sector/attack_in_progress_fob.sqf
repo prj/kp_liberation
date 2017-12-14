@@ -48,6 +48,9 @@ if ( GRLIB_endgame == 0 ) then {
 		[_thispos] call destroy_fob;
 		trigger_server_save = true;
 		stats_fobs_lost = stats_fobs_lost + 1;
+		if ( KP_liberation_alt_income ) then {
+			[] call recalculate_caps;
+		}
 	} else {
 		[_thispos, 3] remoteExec ["remote_call_fob"];
 		{ [_x] spawn prisonner_ai; } foreach ( [ _thispos nearEntities [ "Man", GRLIB_capture_size * 0.8], { side group _x == GRLIB_side_enemy } ] call BIS_fnc_conditionalSelect );

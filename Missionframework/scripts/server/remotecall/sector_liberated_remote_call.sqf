@@ -64,6 +64,9 @@ if ((random 100) <= KP_liberation_cr_wounded_chance) then {
 	[_liberated_sector] spawn civrep_wounded_civs;
 };
 
+if ( KP_liberation_alt_income ) then {
+	[] call recalculate_caps;
+}
 asymm_blocked_sectors pushBack [_liberated_sector, time];
 publicVariable "asymm_blocked_sectors";
 

@@ -42,6 +42,10 @@ if ( isMultiplayer ) then {
 	KP_liberation_production_debug = ["DebugProduction",0] call bis_fnc_getParamValue;
 	KP_liberation_respawn_cooldown = ["RespawnCooldown",900] call bis_fnc_getParamValue;
 	KP_liberation_clear_cargo = ["ClearCargo",1] call bis_fnc_getParamValue;
+	KP_liberation_alt_income = ["AltIncome", 0] call bis_fnc_getParamValue;
+	if ( KP_liberation_alt_income ) then {
+		KP_liberation_ailogistics = 0;
+	}
 } else {
 	GRLIB_difficulty_modifier = 2;
 	GRLIB_time_factor = 12;
@@ -86,6 +90,7 @@ if ( isMultiplayer ) then {
 	KP_liberation_production_debug = 0;
 	KP_liberation_respawn_cooldown = 900;
 	KP_liberation_clear_cargo = 1;
+	KP_liberation_alt_income = 0;
 };
 
 if (GRLIB_fatigue < 0.1) then {GRLIB_fatigue = false} else {GRLIB_fatigue = true};

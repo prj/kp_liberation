@@ -57,6 +57,7 @@ GRLIB_vehicle_to_military_base_links = [];
 GRLIB_permissions = [];
 ai_groups = [];
 resources_intel = 0;
+resources_ammo = 0;
 GRLIB_player_scores = [];
 KP_liberation_civ_rep = 0;
 KP_liberation_cr_vehicles = [];
@@ -181,6 +182,10 @@ if (!isNil "greuh_liberation_savegame") then {
 
 	if (count greuh_liberation_savegame > 17) then {
 		KP_liberation_guerilla_strength = greuh_liberation_savegame select 17;
+	};
+	
+	if (count greuh_liberation_savegame > 18) then {
+		resources_ammo = greuh_liberation_savegame select 18;
 	};
 
 	setDate [2045, 6, 6, time_of_day, 0];
@@ -631,7 +636,7 @@ while {true} do {
 
 		greuh_liberation_savegame = [blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, KP_liberation_storages,
 		KP_liberation_production, KP_liberation_logistics, _stats, [round infantry_weight, round armor_weight, round air_weight], GRLIB_vehicle_to_military_base_links,
-		GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, KP_liberation_civ_rep, KP_liberation_production_markers, KP_liberation_guerilla_strength];
+		GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, KP_liberation_civ_rep, KP_liberation_production_markers, KP_liberation_guerilla_strength, resources_ammo];
 
 		profileNamespace setVariable [GRLIB_save_key, greuh_liberation_savegame];
 		saveProfileNamespace;

@@ -156,7 +156,7 @@ while {true} do {
 		};
 	};
 
-	if ((count _prod_sector) == 12) then {
+	if (!KP_liberation_alt_income && (count _prod_sector) == 12) then {
 		if (alive player && vehicle player == player && ([player, 3] call F_fetchPermission) && ((count (_prod_sector select 3)) == 0)) then {
 			if (_idact_sectorstorage == -1) then {
 				_idact_sectorstorage = player addAction ["<t color='#FFFF00'>" + localize "STR_SECSTORAGEBUILD_ACTION" + "</t>","scripts\client\build\do_sector_build.sqf",[KP_liberation_small_storage_building, _prod_sector],-993,false,true,"","build_confirmed == 0"];
@@ -216,7 +216,7 @@ while {true} do {
 		};
 	};
 
-	if (_fobdistance < _distfob && alive player && vehicle player == player) then {
+	if (!KP_liberation_alt_income && _fobdistance < _distfob && alive player && vehicle player == player) then {
 		if (_idact_resources == -1) then {
 			_idact_resources = player addAction ["<t color='#FFFF00'>" + localize "STR_RESOURCE_GLOBAL_ACTION" + "</t>",{KP_liberation_resources_global = !KP_liberation_resources_global},"",-997,false,true,"","build_confirmed == 0"];
 		};

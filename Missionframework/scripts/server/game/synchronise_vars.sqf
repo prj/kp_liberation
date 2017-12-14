@@ -18,6 +18,11 @@ waitUntil{!isNil "KP_liberation_guerilla_strength"};
 waitUntil{!isNil "infantry_weight"};
 waitUntil{!isNil "armor_weight"};
 waitUntil{!isNil "air_weight"};
+if (KP_liberation_alt_income) then {
+	waitUntil{!isNil "resources_infantry"};
+	waitUntil{!isNil "resources_fuel"};
+	waitUntil{!isNil "resources_ammo"};
+}
 
 private _KP_liberation_fob_resources_old = [];
 private _KP_liberation_supplies_global_old = -1;
@@ -36,6 +41,9 @@ private _KP_liberation_guerilla_strength_old = -999;
 private _infantry_weight_old = -1;
 private _armor_weight_old = -1;
 private _air_weight_old = -1;
+private _resources_infantry_old = -1;
+private _resources_fuel_old = -1;
+private _resources_ammo_old = -1;
 
 while {true} do {
 	waitUntil {sleep 0.25;
@@ -56,6 +64,9 @@ while {true} do {
 		|| _infantry_weight_old != infantry_weight
 		|| _armor_weight_old != armor_weight
 		|| _air_weight_old != air_weight
+		|| _resources_infantry_old != resources_infantry
+		|| _resources_fuel_old != resources_fuel
+		|| _resources_ammo_old != resources_ammo
 	};
 	
 	if (KP_liberation_guerilla_strength < 0) then {KP_liberation_guerilla_strength = 0;};
@@ -78,7 +89,10 @@ while {true} do {
 		KP_liberation_guerilla_strength,
 		infantry_weight,
 		armor_weight,
-		air_weight
+		air_weight,
+		resources_infantry,
+		resources_fuel,
+		resources_ammo
 	];
 	publicVariable "sync_vars";
 	
@@ -99,4 +113,7 @@ while {true} do {
 	_infantry_weight_old = infantry_weight;
 	_armor_weight_old = armor_weight;
 	_air_weight_old = air_weight;
+	_resources_infantry_old = resources_infantry;
+	_resources_fuel_old = resources_fuel;
+	_resources_ammo_old = resources_ammo;
 };

@@ -371,4 +371,10 @@ class Params
 		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
 		default = 0;
 	};
+	class AltIncome {
+		title = $STR_PARAMS_ALT_INCOME;
+		values[] = {0, 1};
+		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
+		default = 0;
+	}
 };

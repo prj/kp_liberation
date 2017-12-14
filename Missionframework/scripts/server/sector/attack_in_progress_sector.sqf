@@ -64,6 +64,9 @@ if ( GRLIB_endgame == 0 ) then {
 				KP_liberation_production = KP_liberation_production - [_x];
 			};
 		} forEach KP_liberation_production;
+		if ( KP_liberation_alt_income ) then {
+			[] call recalculate_caps;
+		}
 	} else {
 		[_sector, 3] remoteExec ["remote_call_sector"];
 		{ [_x] spawn prisonner_ai; } foreach ( [ (markerpos _sector) nearEntities [ "Man", GRLIB_capture_size * 0.8 ], { side group _x == GRLIB_side_enemy } ] call BIS_fnc_conditionalSelect );

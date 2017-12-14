@@ -23,6 +23,9 @@ while {true} do {
 	infantry_weight = sync_vars select 14;
 	armor_weight = sync_vars select 15;
 	air_weight = sync_vars select 16;
+	resources_infantry = sync_vars select 17;
+	resources_fuel = sync_vars select 18;
+	resources_ammo = sync_vars select 19;
 	
 	sync_vars = [];
 	one_synchro_done = true;

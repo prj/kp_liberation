@@ -28,9 +28,11 @@ FOB_build_in_progress = false;
 
 waitUntil {!isNil "build_confirmed"};
 waitUntil {!isNil "one_synchro_done"};
-waitUntil {!isNil "one_eco_done"};
 waitUntil {one_synchro_done};
-waitUntil {one_eco_done};
+if (!KP_liberation_alt_income) then {
+	waitUntil {!isNil "one_eco_done"};
+	waitUntil {one_eco_done};
+};
 
 while {true} do {
 

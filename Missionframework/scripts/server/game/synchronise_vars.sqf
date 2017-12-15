@@ -22,6 +22,10 @@ if (KP_liberation_alt_income) then {
 	waitUntil{!isNil "resources_infantry"};
 	waitUntil{!isNil "resources_fuel"};
 	waitUntil{!isNil "resources_ammo"};
+} else {
+	resources_infantry = 0;
+	resources_fuel = 0;
+	resources_ammo = 0;
 };
 
 private _KP_liberation_fob_resources_old = [];

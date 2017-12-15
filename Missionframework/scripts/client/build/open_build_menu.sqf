@@ -45,7 +45,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 		lbClear 110;
 		{
-			_skip_item = 0;
+			_alt_skip_item = false;
 			ctrlSetText [151, _buildpages select ( buildtype - 1)];
 			if (buildtype != 8) then {
 				_classnamevar = (_x select 0);
@@ -57,16 +57,16 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 					case Respawn_truck_typename: {if (KP_liberation_mobilerespawn) then {_entrytext = localize "STR_RESPAWN_TRUCK";};};
 					case FOB_truck_typename: {_entrytext = localize "STR_FOBTRUCK";};
 					case "Flag_White_F": {_entrytext = localize "STR_INDIV_FLAG";};
-					case KP_liberation_small_storage_building: {_entrytext = localize "STR_SMALL_STORAGE"; _alt_skip_item = 1;};
-					case KP_liberation_large_storage_building: {_entrytext = localize "STR_LARGE_STORAGE"; _alt_skip_item = 1;};
-					case KP_liberation_recycle_building: {_entrytext = localize "STR_RECYCLE_BUILDING"; _alt_skip_item = 1;};
-					case KP_liberation_air_vehicle_building: {_entrytext = localize "STR_HELI_BUILDING"; _alt_skip_item = 1;};
-					case KP_liberation_heli_slot_building: {_entrytext = localize "STR_HELI_SLOT"; _alt_skip_item = 1;};
-					case KP_liberation_plane_slot_building: {_entrytext = localize "STR_PLANE_SLOT"; _alt_skip_item = 1;};
+					case KP_liberation_small_storage_building: {_entrytext = localize "STR_SMALL_STORAGE"; _alt_skip_item = true;};
+					case KP_liberation_large_storage_building: {_entrytext = localize "STR_LARGE_STORAGE"; _alt_skip_item = true;};
+					case KP_liberation_recycle_building: {_entrytext = localize "STR_RECYCLE_BUILDING"; _alt_skip_item = true;};
+					case KP_liberation_air_vehicle_building: {_entrytext = localize "STR_HELI_BUILDING"; _alt_skip_item = true;};
+					case KP_liberation_heli_slot_building: {_entrytext = localize "STR_HELI_SLOT"; _alt_skip_item = true;};
+					case KP_liberation_plane_slot_building: {_entrytext = localize "STR_PLANE_SLOT"; _alt_skip_item = true;};
 					default {};
 				};
 
-				if (!KP_liberation_alt_income || !_alt_skip_item) {
+				if (!KP_liberation_alt_income || !_alt_skip_item) then {
 					((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
 				};
 
@@ -132,7 +132,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_linked = false;
 	_linked_unlocked = true;
 	_base_link = "";
-	if (!KP_liberation_alt_income) {
+	if (!KP_liberation_alt_income) then {
 		if (dobuild == 0 && _selected_item != -1 && (_selected_item < (count _build_list))) then {
 			_build_item = _build_list select _selected_item;
 			if (
@@ -206,7 +206,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO", (floor KP_liberation_ammo)]];
 	ctrlSetText [133, format [ "%1 : %2" , localize "STR_FUEL", (floor KP_liberation_fuel)]];
 	
-	if (!KP_liberation_alt_income) {
+	if (!KP_liberation_alt_income) then {
 		((findDisplay 5501) displayCtrl (134)) ctrlSetStructuredText formatText [
 			"%1/%2 %3 - %4/%5 %6 - %7/%8 %9",
 			unitcap,

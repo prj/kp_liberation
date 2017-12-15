@@ -42,8 +42,8 @@ if ( isMultiplayer ) then {
 	KP_liberation_production_debug = ["DebugProduction",0] call bis_fnc_getParamValue;
 	KP_liberation_respawn_cooldown = ["RespawnCooldown",900] call bis_fnc_getParamValue;
 	KP_liberation_clear_cargo = ["ClearCargo",1] call bis_fnc_getParamValue;
-	KP_liberation_alt_income = ["AltIncome", 0] call bis_fnc_getParamValue;
-	if ( KP_liberation_alt_income ) then {
+	KP_liberation_alt_income = ((["AltIncome", 0] call bis_fnc_getParamValue) == 1);
+	if (KP_liberation_alt_income) then {
 		KP_liberation_ailogistics = 0;
 	};
 } else {

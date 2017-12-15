@@ -220,6 +220,12 @@ class Params
 		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
 		default = 1;
 	};
+	class AltIncome {
+		title = $STR_PARAMS_ALT_INCOME;
+		values[] = {0, 1};
+		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
+		default = 0;
+	};
 	// Arty Supp deactivated for now
 	/*class SuppMod {
 		title = $STR_PARAMS_SUPPMOD;
@@ -279,13 +285,13 @@ class Params
 		title = $STR_PARAMS_INTRO;
 		values[] = { 1, 0 };
 		texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
-		default = 1;
+		default = 0;
 	};
 	class DeploymentCinematic {
 		title = $STR_PARAMS_DEPLOYMENTCAMERA;
 		values[] = { 1, 0 };
 		texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
-		default = 1;
+		default = 0;
 	};
 	class Whitelist {
 		title = $STR_WHITELIST_PARAM;
@@ -367,12 +373,6 @@ class Params
 	};
 	class DebugSectorSpawn {
 		title = $STR_PARAMS_DEBUG_SECTORSPAWN;
-		values[] = {0, 1};
-		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
-		default = 0;
-	};
-	class AltIncome {
-		title = $STR_PARAMS_ALT_INCOME;
 		values[] = {0, 1};
 		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
 		default = 0;

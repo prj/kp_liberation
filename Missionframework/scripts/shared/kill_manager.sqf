@@ -118,13 +118,13 @@ if (isServer) then {
 				if ( KP_liberation_alt_income ) then {
 					private [ "_bounty" ];
 
-					_bounty = 10;
+					_bounty = 20;
 					if ( _unit isKindOf "Air" ) then {
-						_bounty = 30;
+						_bounty = 60;
 					};
 
 					if ( _unit isKindOf "Tank" ) then {
-						_bounty = 20;
+						_bounty = 40;
 					};
 
 					resources_ammo = resources_ammo + _bounty * GRLIB_resources_multiplier;

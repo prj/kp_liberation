@@ -59,12 +59,22 @@ if ((typeOf _vehtorecycle) in all_hostile_classnames) then {
 		_price_a = round (200 * _ammoMulti);
 		_price_f = round (150 * _fuelMulti);
 	};
+	if(KP_liberation_alt_income) then {
+		_price_s = 0;
+		_price_f = 0;
+	};
 } else {
 	_objectinfo = ([(light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles + buildings), {(typeOf _vehtorecycle) == (_x select 0)}] call BIS_fnc_conditionalSelect) select 0;
 	_disName = getText (_cfg >> (_objectinfo select 0) >> "displayName");
-	_price_s = round ((_objectinfo select 1) * GRLIB_recycling_percentage * _suppMulti);
-	_price_a = round ((_objectinfo select 2) * GRLIB_recycling_percentage * _ammoMulti);
-	_price_f = round ((_objectinfo select 3) * GRLIB_recycling_percentage * _fuelMulti);
+	if (!KP_liberation_alt_income) then {
+		_price_s = round ((_objectinfo select 1) * GRLIB_recycling_percentage * _suppMulti);
+		_price_a = round ((_objectinfo select 2) * GRLIB_recycling_percentage * _ammoMulti);
+		_price_f = round ((_objectinfo select 3) * GRLIB_recycling_percentage * _fuelMulti);
+	} else {
+		_price_s = _objectinfo select 1;
+		_price_a = _objectinfo select 2;
+		_price_f = _objectinfo select 3;
+	};
 };
 
 waitUntil { dialog };
@@ -86,7 +96,7 @@ if ( dorecycle == 1 && !(isnull _vehtorecycle) && alive _vehtorecycle) then {
 	
 	_nearfob = [] call F_getNearestFob;
 
-	if (!(KP_liberation_recycle_building_near) && ((_price_s + _price_a + _price_f) > 0)) exitWith {hint localize "STR_NORECBUILDING_ERROR";};
+	if (!(KP_liberation_alt_income) && !(KP_liberation_recycle_building_near) && ((_price_s + _price_a + _price_f) > 0)) exitWith {hint localize "STR_NORECBUILDING_ERROR";};
 
 	_storage_areas = [_nearfob nearobjects (GRLIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 
@@ -106,7 +116,7 @@ if ( dorecycle == 1 && !(isnull _vehtorecycle) && alive _vehtorecycle) then {
 		};
 	} forEach _storage_areas;
 
-	if (_spaceSum < _crateSum) then {
+	if (!KP_liberation_alt_income && _spaceSum < _crateSum) then {
 		hint localize "STR_CANCEL_ERROR";
 	} else {
 		[_vehtorecycle, _price_s, _price_a, _price_f, _storage_areas] remoteExec ["recycle_remote_call",2];

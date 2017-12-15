@@ -141,7 +141,7 @@ class RscTitles
 		movingEnable = true;
 		onLoad = "uiNamespace setVariable ['GUI_OVERLAY', _this select 0];";
 		controls[]= {
-			BGPicture,
+			BGPicture, BGPictureAlt,
 			PictureFOBShadow, PictureFOB, LabelFOB,
 			PictureSuppliesShadow, PictureSupplies, LabelSupplies,
 			PictureAmmoShadow, PictureAmmo, LabelAmmo,
@@ -152,6 +152,9 @@ class RscTitles
 			PictureCombatReadinessShadow, PictureCombatReadiness, LabelCombatReadiness,
 			PictureCivRepShadow, PictureCivRep, LabelCivRep,
 			PictureIntelShadow, PictureIntel, LabelIntel,
+			PictureCombatReadinessShadowAlt, PictureCombatReadinessAlt, LabelCombatReadinessAlt,
+			PictureCivRepShadowAlt, PictureCivRepAlt, LabelCivRepAlt,
+			PictureIntelShadowAlt, PictureIntelAlt, LabelIntelAlt,			
 			BGPictureActiveSectors, BGPictureSector,
 			CaptureFrame_OPFOR, CaptureFrame_BLUFOR, CaptureFrame,
 			LabelPoint, CentralShadow, CentralLabel,
@@ -171,6 +174,13 @@ class RscTitles
 			y = 0.395 * safezoneH + safezoneY;
 			h = 0.255 * safezoneH;
 			text = "res\gradient.paa";
+		};
+		class BGPictureAlt : BGPicture {
+			idc = 8758001;
+			x = 0.95 * safezoneW + safezoneX;
+			w = 0.075 * safezoneW;
+			y = 0.421 * safezoneH + safezoneY;
+			h = 0.1785 * safezoneH;
 		};
 		class BGPictureSector : BGPicture {
 			idc = 201;
@@ -402,6 +412,61 @@ class RscTitles
 			idc = 758031;
 			text = "";
 			y = (0.39 + ( ICONE_SPACY * 9 ) ) * safezoneH + safezoneY;
+			colorText[] = {0, 0.45, 0.95, 1};
+		};
+		
+		class PictureCombatReadinessAlt : GenericPicture69 {
+			idc = 8758023;
+			y = (0.4 + ( ICONE_SPACY * 5 ) ) * safezoneH + safezoneY;
+			text = "\A3\ui_f\data\map\markers\handdrawn\warning_CA.paa";
+		};
+		class PictureCombatReadinessShadowAlt : PictureCombatReadinessAlt {
+			idc = 8758024;
+			y = (0.4 + SHADOW_Y + ( ICONE_SPACY * 5 ) ) * safezoneH + safezoneY;
+			x = (0.985 + SHADOW_X) * safezoneW + safezoneX;
+			colorText[] = {0,0,0,0.7};
+		};
+		class LabelCombatReadinessAlt : GenericLabel69 {
+			idc = 8758025;
+			text = "";
+			y = (0.39 + ( ICONE_SPACY * 5 ) ) * safezoneH + safezoneY;
+			colorText[] = {0.8, 0.8, 0.8, 1};
+		};
+
+		class PictureCivRepAlt : GenericPicture69 {
+			idc = 8758026;
+			y = (0.4 + ( ICONE_SPACY * 6 ) ) * safezoneH + safezoneY;
+			text = "\A3\ui_f\data\map\mapcontrol\tourism_CA.paa";
+		};
+		class PictureCivRepShadowAlt : PictureCivRepAlt {
+			idc = 8758027;
+			y = (0.4 + SHADOW_Y + ( ICONE_SPACY * 6 ) ) * safezoneH + safezoneY;
+			x = (0.985 + SHADOW_X) * safezoneW + safezoneX;
+			colorText[] = {0,0,0,0.7};
+		};
+		class LabelCivRepAlt : GenericLabel69 {
+			idc = 8758028;
+			text = "";
+			y = (0.39 + ( ICONE_SPACY * 6 ) ) * safezoneH + safezoneY;
+			colorText[] = {0.8, 0.8, 0.8, 1};
+		};
+
+		class PictureIntelAlt : GenericPicture69 {
+			idc = 8758029;
+			colorText[] = {0,0.45,0.95,1};
+			y = (0.4 + ( ICONE_SPACY * 7 ) ) * safezoneH + safezoneY;
+			text = "\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa";
+		};
+		class PictureIntelShadowAlt : PictureIntelAlt {
+			idc = 8758030;
+			y = (0.4 + SHADOW_Y + ( ICONE_SPACY * 7 ) ) * safezoneH + safezoneY;
+			x = (0.985 + SHADOW_X) * safezoneW + safezoneX;
+			colorText[] = {0,0,0,0.7};
+		};
+		class LabelIntelAlt : GenericLabel69 {
+			idc = 8758031;
+			text = "";
+			y = (0.39 + ( ICONE_SPACY * 7 ) ) * safezoneH + safezoneY;
 			colorText[] = {0, 0.45, 0.95, 1};
 		};
 		

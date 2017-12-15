@@ -204,11 +204,11 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	ctrlEnable [ 120, _affordable && _linked_unlocked && !(_squad_full) ];
 	ctrlEnable [ 121, _affordable_crew && _linked_unlocked ];
 
-	ctrlSetText [131, format [ "%1 : %2" , localize "STR_MANPOWER", (floor KP_liberation_supplies)]] ;
-	ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO", (floor KP_liberation_ammo)]];
-	ctrlSetText [133, format [ "%1 : %2" , localize "STR_FUEL", (floor KP_liberation_fuel)]];
-	
 	if (!KP_liberation_alt_income) then {
+		ctrlSetText [131, format [ "%1 : %2" , localize "STR_MANPOWER", (floor KP_liberation_supplies)]] ;
+		ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO", (floor KP_liberation_ammo)]];
+		ctrlSetText [133, format [ "%1 : %2" , localize "STR_FUEL", (floor KP_liberation_fuel)]];
+	
 		((findDisplay 5501) displayCtrl (134)) ctrlSetStructuredText formatText [
 			"%1/%2 %3 - %4/%5 %6 - %7/%8 %9",
 			unitcap,
@@ -222,7 +222,16 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 			image "\A3\Air_F_EPC\Plane_CAS_01\Data\UI\Map_Plane_CAS_01_CA.paa"
 			];
 	} else {
-		ctrlSetText [134, format [ "%1 : %2/%3" , localize "STR_UNITCAP" , unitcap, ([] call F_localCap)] ];
+		ctrlSetText [131, format [ "%1 : %2/%3" , localize "STR_MANPOWER" , (floor resources_infantry), infantry_cap]] ;
+		ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO" , (floor resources_ammo)] ];
+		ctrlSetText [133, format [ "%1 : %2/%3" , localize "STR_FUEL" , (floor resources_fuel), fuel_cap] ];
+		// ctrlSetText [134, format [ "%1 : %2/%3" , localize "STR_UNITCAP" , unitcap, ([] call F_localCap)] ];
+		((findDisplay 5501) displayCtrl (134)) ctrlSetStructuredText formatText [
+			"%1/%2 %3",
+			unitcap,
+			([] call F_localCap),
+			image "\a3\Ui_F_Curator\Data\Displays\RscDisplayCurator\modeGroups_ca.paa"
+			];
 	};
 
 	_link_color = "#0040e0";

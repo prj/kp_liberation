@@ -1,6 +1,6 @@
 disableSerialization;
 
-private [ "_overlayshown", "_sectorcontrols", "_resourcescontrols", "_active_sectors_hint", "_uiticks", "_attacked_string", "_active_sectors_string", "_color_readiness", "_nearest_active_sector", "_zone_size", "_colorzone", "_bar", "_barwidth", "_first_iteration", "_distfob", "_nearfob", "_fobdistance", "_resources", "_notNearFOB", "_resource_area"];
+private [ "_overlayshown", "_sectorcontrols", "_resourcescontrols", "_resourcescontrols_alt", "_active_sectors_hint", "_uiticks", "_attacked_string", "_active_sectors_string", "_color_readiness", "_nearest_active_sector", "_zone_size", "_colorzone", "_bar", "_barwidth", "_first_iteration", "_distfob", "_nearfob", "_fobdistance", "_resources", "_notNearFOB", "_resource_area"];
 
 _overlayshown = false;
 
@@ -44,6 +44,31 @@ _resourcescontrols = [
 	758029,	// Picture Intel
 	758030,	// Picture Intel Shadow
 	758031	// Label Intel
+];
+
+_resourcescontrols_alt = [
+	8758001, // BG Picture
+	758005, // Picture Supplies
+	758006, // Picture Supplies Shadow
+	758007, // Label Supplies
+	758008, // Picture Ammo
+	758009, // Picture Ammo Shadow
+	758010, // Label Ammo
+	758011, // Picture Fuel
+	758012, // Picture Fuel Shadow
+	758013, // Label Fuel
+	758014, // Picture Cap
+	758015, // Picture Cap Shadow
+	758016, // Label Cap
+	8758023, // Picture Combat Readiness
+	8758024, // Picture Combat Readiness Shadow
+	8758025, // Label Combat Readiness
+	8758026, // Picture Civ Rep
+	8758027, // Picture Civ Rep Shadow
+	8758028, // Label Civ Rep
+	8758029, // Picture Intel
+	8758030, // Picture Intel Shadow
+	8758031	// Label Intel
 ];
 
 _active_sectors_hint = false;
@@ -141,7 +166,9 @@ while { true } do {
 		};
 
 		if (_resources || KP_liberation_alt_income) then {
-			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow true;} foreach  _resourcescontrols;
+			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow !KP_liberation_alt_income;} foreach  _resourcescontrols;
+			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow KP_liberation_alt_income;} foreach  _resourcescontrols_alt;
+
 			// Fix for small script error that variables will be "any" for a second after an FOB has been build
 			if (isNil "KP_liberation_supplies") then {KP_liberation_supplies = 0;};
 			if (isNil "KP_liberation_ammo") then {KP_liberation_ammo = 0;};
@@ -165,9 +192,9 @@ while { true } do {
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758010)) ctrlSetText format [ "%1", (floor resources_ammo) ];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758013)) ctrlSetText format [ "%1/%2", (floor resources_fuel),fuel_cap ];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758016)) ctrlSetText format [ "%1/%2", unitcap,([] call F_localCap) ];
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetText format [ "%1%2", round(combat_readiness),"%" ];
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetText format ["%1%2", KP_liberation_civ_rep,"%"];
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758031)) ctrlSetText format [ "%1", round(resources_intel) ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758025)) ctrlSetText format [ "%1%2", round(combat_readiness),"%" ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758028)) ctrlSetText format ["%1%2", KP_liberation_civ_rep,"%"];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758031)) ctrlSetText format [ "%1", round(resources_intel) ];
 				};
 				
 				_color_readiness = [0.8,0.8,0.8,1];
@@ -175,16 +202,26 @@ while { true } do {
 				if ( combat_readiness >= 50 ) then { _color_readiness = [0.8,0.6,0,1] };
 				if ( combat_readiness >= 75 ) then { _color_readiness = [0.8,0.3,0,1] };
 				if ( combat_readiness >= 100 ) then { _color_readiness = [0.8,0,0,1] };
-
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758023)) ctrlSetTextColor _color_readiness;
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetTextColor _color_readiness;
+				
+				if (!KP_liberation_alt_income) then {
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758023)) ctrlSetTextColor _color_readiness;
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetTextColor _color_readiness;
+				} else {
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758023)) ctrlSetTextColor _color_readiness;
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758025)) ctrlSetTextColor _color_readiness;
+				};
 
 				private _color_reputation = [0.8,0.8,0.8,1];
 				if (KP_liberation_civ_rep >= 25) then {_color_reputation = [0,0.7,0,1]};
 				if (KP_liberation_civ_rep <= -25) then {_color_reputation = [0.7,0,0,1]};
-
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758026)) ctrlSetTextColor _color_reputation;
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetTextColor _color_reputation;
+				
+				if (!KP_liberation_alt_income) then {
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758026)) ctrlSetTextColor _color_reputation;
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetTextColor _color_reputation;
+				} else {
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758026)) ctrlSetTextColor _color_reputation;
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (8758028)) ctrlSetTextColor _color_reputation;
+				};
 				_notNearFOB = false;
 
 			};

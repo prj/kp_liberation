@@ -117,6 +117,8 @@ while { true } do {
 			KP_liberation_air_vehicle_building_near = false;
 			KP_liberation_recycle_building_near = false;
 		};
+	} else {
+		_resources = false;
 	};
 	
 	if ( _overlayshown) then {
@@ -138,16 +140,16 @@ while { true } do {
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (403)) ctrlSetText "";
 		};
 
-		if (!KP_liberation_alt_income) then {
-			if (_resources) then {
-				{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow true;} foreach  _resourcescontrols;
-				// Fix for small script error that variables will be "any" for a second after an FOB has been build
-				if (isNil "KP_liberation_supplies") then {KP_liberation_supplies = 0;};
-				if (isNil "KP_liberation_ammo") then {KP_liberation_ammo = 0;};
-				if (isNil "KP_liberation_fuel") then {KP_liberation_fuel = 0;};
+		if (_resources || KP_liberation_alt_income) then {
+			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow true;} foreach  _resourcescontrols;
+			// Fix for small script error that variables will be "any" for a second after an FOB has been build
+			if (isNil "KP_liberation_supplies") then {KP_liberation_supplies = 0;};
+			if (isNil "KP_liberation_ammo") then {KP_liberation_ammo = 0;};
+			if (isNil "KP_liberation_fuel") then {KP_liberation_fuel = 0;};
+			
+			if ((_uiticks % 5 == 0) || _notNearFOB) then {
 				
-				if ((_uiticks % 5 == 0) || _notNearFOB) then {
-
+				if (!KP_liberation_alt_income) then {
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758004)) ctrlSetText format ["%1", _resource_area];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758007)) ctrlSetText format ["%1", (floor KP_liberation_supplies)];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758010)) ctrlSetText format ["%1", (floor KP_liberation_ammo)];
@@ -158,49 +160,37 @@ while { true } do {
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetText format ["%1%2", round(combat_readiness),"%"];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetText format ["%1%2", KP_liberation_civ_rep,"%"];
 					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758031)) ctrlSetText format ["%1", round(resources_intel)];
-
-					_color_readiness = [0.8,0.8,0.8,1];
-					if ( combat_readiness >= 25 ) then { _color_readiness = [0.8,0.8,0,1] };
-					if ( combat_readiness >= 50 ) then { _color_readiness = [0.8,0.6,0,1] };
-					if ( combat_readiness >= 75 ) then { _color_readiness = [0.8,0.3,0,1] };
-					if ( combat_readiness >= 100 ) then { _color_readiness = [0.8,0,0,1] };
-
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758023)) ctrlSetTextColor _color_readiness;
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetTextColor _color_readiness;
-
-					private _color_reputation = [0.8,0.8,0.8,1];
-					if (KP_liberation_civ_rep >= 25) then {_color_reputation = [0,0.7,0,1]};
-					if (KP_liberation_civ_rep <= -25) then {_color_reputation = [0.7,0,0,1]};
-
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758026)) ctrlSetTextColor _color_reputation;
-					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetTextColor _color_reputation;
-					_notNearFOB = false;
-
+				} else {		
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758007)) ctrlSetText format [ "%1/%2", (floor resources_infantry),infantry_cap ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758010)) ctrlSetText format [ "%1", (floor resources_ammo) ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758013)) ctrlSetText format [ "%1/%2", (floor resources_fuel),fuel_cap ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758016)) ctrlSetText format [ "%1/%2", unitcap,([] call F_localCap) ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetText format [ "%1%2", round(combat_readiness),"%" ];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetText format ["%1%2", KP_liberation_civ_rep,"%"];
+					((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758031)) ctrlSetText format [ "%1", round(resources_intel) ];
 				};
-			} else {
-				{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow false;} foreach  _resourcescontrols;
-				_notNearFOB = true;
-			};
-		} else {
-			if ( _uiticks % 5 == 0 ) then {
-
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (101)) ctrlSetText format [ "%1/%2", (floor resources_infantry),infantry_cap ];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (102)) ctrlSetText format [ "%1", (floor resources_ammo) ];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (103)) ctrlSetText format [ "%1/%2", (floor resources_fuel),fuel_cap ];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (104)) ctrlSetText format [ "%1/%2", unitcap,([] call F_localCap) ];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (105)) ctrlSetText format [ "%1%2", round(combat_readiness),"%" ];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (106)) ctrlSetText format [ "%1", round(resources_intel) ];
-
+				
 				_color_readiness = [0.8,0.8,0.8,1];
 				if ( combat_readiness >= 25 ) then { _color_readiness = [0.8,0.8,0,1] };
 				if ( combat_readiness >= 50 ) then { _color_readiness = [0.8,0.6,0,1] };
 				if ( combat_readiness >= 75 ) then { _color_readiness = [0.8,0.3,0,1] };
 				if ( combat_readiness >= 100 ) then { _color_readiness = [0.8,0,0,1] };
 
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (105)) ctrlSetTextColor _color_readiness;
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (135)) ctrlSetTextColor _color_readiness;
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758023)) ctrlSetTextColor _color_readiness;
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetTextColor _color_readiness;
+
+				private _color_reputation = [0.8,0.8,0.8,1];
+				if (KP_liberation_civ_rep >= 25) then {_color_reputation = [0,0.7,0,1]};
+				if (KP_liberation_civ_rep <= -25) then {_color_reputation = [0.7,0,0,1]};
+
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758026)) ctrlSetTextColor _color_reputation;
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetTextColor _color_reputation;
+				_notNearFOB = false;
 
 			};
+		} else {
+			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow false;} foreach  _resourcescontrols;
+			_notNearFOB = true;
 		};
 		
 		if ( _uiticks % 25 == 0 ) then {

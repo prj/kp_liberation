@@ -24,7 +24,7 @@ while {GRLIB_endgame == 0} do {
 					[_nextsector] remoteExec ["manage_one_sector", _hc];
 				};
 
-				if ((_nextsector in sectors_factory) || (_nextsector in sectors_capture)) then {
+				if (!KP_liberation_KP_liberation_alt_income && ((_nextsector in sectors_factory) || (_nextsector in sectors_capture))) then {
 					[_nextsector] call manage_captureboxes;
 				};
 

@@ -1,4 +1,4 @@
-private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob", "_alt_skip_item"];
+private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob", "_alt_skip_item", "_build_list_tmp"];
 
 if (([ getpos player , 500 , GRLIB_side_enemy ] call F_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
 
@@ -40,6 +40,7 @@ if (!KP_liberation_alt_income) then {
 
 while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_build_list = build_lists select buildtype;
+	_build_list_tmp = [];
 
 	if (_oldbuildtype != buildtype || synchro_done) then {
 		synchro_done = false;
@@ -70,13 +71,13 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 				if (!KP_liberation_alt_income || !_alt_skip_item) then {
 					((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
+					_icon = getText ( _cfg >> (_x select 0) >> "icon");
+					if(isText  (configFile >> "CfgVehicleIcons" >> _icon)) then {
+						_icon = (getText (configFile >> "CfgVehicleIcons" >> _icon));
+					};
+					lnbSetPicture  [110, [((lnbSize 110) select 0) - 1, 0],_icon];
+					_build_list_tmp pushBack _x;
 				};
-
-				_icon = getText ( _cfg >> (_x select 0) >> "icon");
-				if(isText  (configFile >> "CfgVehicleIcons" >> _icon)) then {
-					_icon = (getText (configFile >> "CfgVehicleIcons" >> _icon));
-				};
-				lnbSetPicture  [110, [((lnbSize 110) select 0) - 1, 0],_icon];
 			} else {
 				if ( ((lnbSize  110) select 0) <= count squads_names ) then {
 					_squadname = squads_names select ((lnbSize  110) select 0);
@@ -84,6 +85,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 					_squadname = "";
 				};
 				((findDisplay 5501) displayCtrl (110)) lnbAddRow  [_squadname, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
+				_build_list_tmp pushBack _x;
 			};
 
 			_affordable = true;
@@ -118,6 +120,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 			};
 
 		} foreach _build_list;
+		_build_list = _build_list_tmp;
 	};
 
 	if(_initindex != -1) then {

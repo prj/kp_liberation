@@ -1,16 +1,30 @@
 sync_vars = []; publicVariable "sync_vars";
 
 waitUntil{!isNil "save_is_loaded"};
-waitUntil{!isNil "KP_liberation_fob_resources"};
-waitUntil{!isNil "KP_liberation_supplies_global"};
-waitUntil{!isNil "KP_liberation_ammo_global"};
-waitUntil{!isNil "KP_liberation_fuel_global"};
+if (!KP_liberation_alt_income) then {
+	waitUntil{!isNil "KP_liberation_fob_resources"};
+	waitUntil{!isNil "KP_liberation_supplies_global"};
+	waitUntil{!isNil "KP_liberation_ammo_global"};
+	waitUntil{!isNil "KP_liberation_fuel_global"};
+} else {
+	KP_liberation_fob_resources = 0;
+	KP_liberation_supplies_global = 0;
+	KP_liberation_ammo_global = 0;
+	KP_liberation_fuel_global = 0;
+};
 waitUntil{!isNil "combat_readiness"};
 waitUntil{!isNil "unitcap"};
-waitUntil{!isNil "KP_liberation_heli_count"};
-waitUntil{!isNil "KP_liberation_plane_count"};
-waitUntil{!isNil "KP_liberation_heli_slots"};
-waitUntil{!isNil "KP_liberation_plane_slots"};
+if (!KP_liberation_alt_income) then {
+	waitUntil{!isNil "KP_liberation_heli_count"};
+	waitUntil{!isNil "KP_liberation_plane_count"};
+	waitUntil{!isNil "KP_liberation_heli_slots"};
+	waitUntil{!isNil "KP_liberation_plane_slots"};
+} else {
+	KP_liberation_heli_count = 0;
+	KP_liberation_plane_count = 0;
+	KP_liberation_heli_slots = 0;
+	KP_liberation_plane_slots = 0;
+};
 waitUntil{!isNil "resources_intel"};
 waitUntil{!isNil "infantry_cap"};
 waitUntil{!isNil "KP_liberation_civ_rep"};
@@ -18,14 +32,17 @@ waitUntil{!isNil "KP_liberation_guerilla_strength"};
 waitUntil{!isNil "infantry_weight"};
 waitUntil{!isNil "armor_weight"};
 waitUntil{!isNil "air_weight"};
+
 if (KP_liberation_alt_income) then {
 	waitUntil{!isNil "resources_infantry"};
 	waitUntil{!isNil "resources_fuel"};
 	waitUntil{!isNil "resources_ammo"};
+	waitUntil{!isNil "fuel_cap"};
 } else {
 	resources_infantry = 0;
 	resources_fuel = 0;
 	resources_ammo = 0;
+	fuel_cap = 0;
 };
 
 private _KP_liberation_fob_resources_old = [];
@@ -48,6 +65,7 @@ private _air_weight_old = -1;
 private _resources_infantry_old = -1;
 private _resources_fuel_old = -1;
 private _resources_ammo_old = -1;
+private _fuel_cap_old = -1;
 
 while {true} do {
 	waitUntil {sleep 0.25;
@@ -71,6 +89,7 @@ while {true} do {
 		|| _resources_infantry_old != resources_infantry
 		|| _resources_fuel_old != resources_fuel
 		|| _resources_ammo_old != resources_ammo
+		|| _fuel_cap_old != fuel_cap
 	};
 	
 	if (KP_liberation_guerilla_strength < 0) then {KP_liberation_guerilla_strength = 0;};
@@ -96,7 +115,8 @@ while {true} do {
 		air_weight,
 		resources_infantry,
 		resources_fuel,
-		resources_ammo
+		resources_ammo,
+		fuel_cap
 	];
 	publicVariable "sync_vars";
 	
@@ -120,4 +140,5 @@ while {true} do {
 	_resources_infantry_old = resources_infantry;
 	_resources_fuel_old = resources_fuel;
 	_resources_ammo_old = resources_ammo;
+	_fuel_cap_old = fuel_cap;
 };

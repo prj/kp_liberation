@@ -34,7 +34,9 @@ localize "STR_BUILD8"
 ];
 
 _nearfob = [] call F_getNearestFob;
-_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
+if (!KP_liberation_alt_income) then {
+	_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
+};
 
 while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_build_list = build_lists select buildtype;

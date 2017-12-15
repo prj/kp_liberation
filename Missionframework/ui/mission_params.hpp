@@ -224,7 +224,7 @@ class Params
 		title = $STR_PARAMS_ALT_INCOME;
 		values[] = {0, 1};
 		texts[] = {$STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED};
-		default = 0;
+		default = 1;
 	};
 	// Arty Supp deactivated for now
 	/*class SuppMod {

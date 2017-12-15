@@ -87,34 +87,36 @@ while { true } do {
 	
 	_nearfob = [] call F_getNearestFob;
 	_fobdistance = 9999;
-	_actual_fob = [];
-	if ( count _nearfob == 3 ) then {
-		_fobdistance = player distance _nearfob;
-		_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
-	};
-	
-	if (_fobdistance < _distfob) then {
-		_resources = true;
-		if (KP_liberation_resources_global) then {
-			_resource_area = localize "STR_RESOURCE_GLOBAL";
-			KP_liberation_supplies = KP_liberation_supplies_global;
-			KP_liberation_ammo = KP_liberation_ammo_global;
-			KP_liberation_fuel = KP_liberation_fuel_global;	
-		} else {
-			_resource_area = toUpper ([_nearfob] call F_getFobName);
-			KP_liberation_supplies = ((_actual_fob select 0) select 1);
-			KP_liberation_ammo = ((_actual_fob select 0) select 2);
-			KP_liberation_fuel = ((_actual_fob select 0) select 3);	
+	if (!KP_liberation_alt_income) then {
+		_actual_fob = [];
+		if ( count _nearfob == 3 ) then {
+			_fobdistance = player distance _nearfob;
+			_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
 		};
-		KP_liberation_air_vehicle_building_near = ((_actual_fob select 0) select 4);
-		KP_liberation_recycle_building_near = ((_actual_fob select 0) select 5);
-	} else {
-		_resources = false;
-		KP_liberation_supplies = 0;
-		KP_liberation_ammo = 0;
-		KP_liberation_fuel = 0;
-		KP_liberation_air_vehicle_building_near = false;
-		KP_liberation_recycle_building_near = false;
+		
+		if (_fobdistance < _distfob) then {
+			_resources = true;
+			if (KP_liberation_resources_global) then {
+				_resource_area = localize "STR_RESOURCE_GLOBAL";
+				KP_liberation_supplies = KP_liberation_supplies_global;
+				KP_liberation_ammo = KP_liberation_ammo_global;
+				KP_liberation_fuel = KP_liberation_fuel_global;	
+			} else {
+				_resource_area = toUpper ([_nearfob] call F_getFobName);
+				KP_liberation_supplies = ((_actual_fob select 0) select 1);
+				KP_liberation_ammo = ((_actual_fob select 0) select 2);
+				KP_liberation_fuel = ((_actual_fob select 0) select 3);	
+			};
+			KP_liberation_air_vehicle_building_near = ((_actual_fob select 0) select 4);
+			KP_liberation_recycle_building_near = ((_actual_fob select 0) select 5);
+		} else {
+			_resources = false;
+			KP_liberation_supplies = 0;
+			KP_liberation_ammo = 0;
+			KP_liberation_fuel = 0;
+			KP_liberation_air_vehicle_building_near = false;
+			KP_liberation_recycle_building_near = false;
+		};
 	};
 	
 	if ( _overlayshown) then {

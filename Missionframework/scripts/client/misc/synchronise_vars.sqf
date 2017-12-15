@@ -26,6 +26,7 @@ while {true} do {
 	resources_infantry = sync_vars select 17;
 	resources_fuel = sync_vars select 18;
 	resources_ammo = sync_vars select 19;
+	fuel_cap = sync_vars select 20;
 	
 	sync_vars = [];
 	one_synchro_done = true;

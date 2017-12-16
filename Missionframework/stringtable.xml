@@ -1690,7 +1690,7 @@
 			<Italian>200% - Raccomandato per server dedicati con tanti headless client</Italian>
 			<Chinesesimp>200% - 适用于有多个Headless Client辅助的服务器</Chinesesimp>
 			<Turkish>200% - Çoklu headless client'e sahip dedicated server için uygun</Turkish>
-			<Portuguese>150% - Recomendado para servidor com mútiplos headless clients</Portuguese>
+			<Portuguese>200% - Recomendado para servidor com mútiplos headless clients</Portuguese>
 		</Key>
 		<Key ID="STR_PARAMS_CIVILIANS">
 			<Original>Civilian activity</Original>

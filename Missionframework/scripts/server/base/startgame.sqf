@@ -1,4 +1,4 @@
-waitUntil {time > 1};
+ waitUntil {time > 1};
 waitUntil {!isNil "GRLIB_all_fobs"};
 waitUntil {!isNil "save_is_loaded"};
 
@@ -31,6 +31,7 @@ if (count GRLIB_all_fobs == 0) then {
 			_fobbox setposATL (getposATL base_boxspawn);	
 
 			_fobbox call F_setFobMass;
+			_fobbox setVariable ["KP_liberation_preplaced", true, true];
 
 			sleep 3;
 

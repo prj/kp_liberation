@@ -1,4 +1,4 @@
-private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob", "_alt_skip_item", "_build_list_tmp"];
+private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob", "_alt_skip_item", "_build_list_map", "_build_index"];
 
 if (([ getpos player , 500 , GRLIB_side_enemy ] call F_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
 
@@ -40,13 +40,14 @@ if (!KP_liberation_alt_income) then {
 
 while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_build_list = build_lists select buildtype;
-	_build_list_tmp = [];
 
 	if (_oldbuildtype != buildtype || synchro_done) then {
 		synchro_done = false;
 		_oldbuildtype = buildtype;
 
 		lbClear 110;
+		_build_list_map = [];
+		_build_index = 0;
 		{
 			_alt_skip_item = false;
 			ctrlSetText [151, _buildpages select ( buildtype - 1)];
@@ -68,16 +69,17 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 					case KP_liberation_plane_slot_building: {_entrytext = localize "STR_PLANE_SLOT"; _alt_skip_item = true;};
 					default {};
 				};
-
-				if (!KP_liberation_alt_income || !_alt_skip_item) then {
+				
+				if (!(KP_liberation_alt_income && _alt_skip_item)) then {
 					((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
 					_icon = getText ( _cfg >> (_x select 0) >> "icon");
 					if(isText  (configFile >> "CfgVehicleIcons" >> _icon)) then {
 						_icon = (getText (configFile >> "CfgVehicleIcons" >> _icon));
 					};
 					lnbSetPicture  [110, [((lnbSize 110) select 0) - 1, 0],_icon];
-					_build_list_tmp pushBack _x;
+					_build_list_map pushBack _build_index;
 				};
+				_build_index = _build_index + 1;
 			} else {
 				if ( ((lnbSize  110) select 0) <= count squads_names ) then {
 					_squadname = squads_names select ((lnbSize  110) select 0);
@@ -85,42 +87,41 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 					_squadname = "";
 				};
 				((findDisplay 5501) displayCtrl (110)) lnbAddRow  [_squadname, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
-				_build_list_tmp pushBack _x;
 			};
 
-			_affordable = true;
-			if (!KP_liberation_alt_income) then {
-				if (
-					((_x select 1 > 0) && ((_x select 1) > ((_actual_fob select 0) select 1))) ||
-					((_x select 2 > 0) && ((_x select 2) > ((_actual_fob select 0) select 2))) ||
-					((_x select 3 > 0) && ((_x select 3) > ((_actual_fob select 0) select 3)))
-				) then {
-					_affordable = false;
-				};
-			} else {
-				if(
-					((_x select 1 > 0) && ((_x select 1) > (infantry_cap - resources_infantry))) ||
-					((_x select 2 > 0) && ((_x select 2) > resources_ammo)) ||
-					((_x select 3 > 0) && ((_x select 3) > (fuel_cap - resources_fuel)))
+			if (!(KP_liberation_alt_income && _alt_skip_item)) then {
+				_affordable = true;
+				if (!KP_liberation_alt_income) then {
+					if (
+						((_x select 1 > 0) && ((_x select 1) > ((_actual_fob select 0) select 1))) ||
+						((_x select 2 > 0) && ((_x select 2) > ((_actual_fob select 0) select 2))) ||
+						((_x select 3 > 0) && ((_x select 3) > ((_actual_fob select 0) select 3)))
 					) then {
-					_affordable = false;
+						_affordable = false;
+					};
+				} else {
+					if(
+						((_x select 1 > 0) && ((_x select 1) > (infantry_cap - resources_infantry))) ||
+						((_x select 2 > 0) && ((_x select 2) > resources_ammo)) ||
+						((_x select 3 > 0) && ((_x select 3) > (fuel_cap - resources_fuel)))
+						) then {
+						_affordable = false;
+					};
+				};
+
+				if ( _affordable ) then {
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 0], [1,1,1,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 1], [1,1,1,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 2], [1,1,1,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 3], [1,1,1,1]];
+				} else {
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 0], [0.4,0.4,0.4,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 1], [0.4,0.4,0.4,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 2], [0.4,0.4,0.4,1]];
+					((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 3], [0.4,0.4,0.4,1]];
 				};
 			};
-
-			if ( _affordable ) then {
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 0], [1,1,1,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 1], [1,1,1,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 2], [1,1,1,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 3], [1,1,1,1]];
-			} else {
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 0], [0.4,0.4,0.4,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 1], [0.4,0.4,0.4,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 2], [0.4,0.4,0.4,1]];
-				((findDisplay 5501) displayCtrl (110)) lnbSetColor  [[((lnbSize 110) select 0) - 1, 3], [0.4,0.4,0.4,1]];
-			};
-
 		} foreach _build_list;
-		_build_list = _build_list_tmp;
 	};
 
 	if(_initindex != -1) then {
@@ -128,7 +129,12 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 		_initindex = -1;
 	};
 
-	_selected_item = lbCurSel 110;
+	if (buildtype != 8 && KP_liberation_alt_income && (lbCurSel 110) >= 0) then {
+		_selected_item = _build_list_map select (lbCurSel 110);
+	} else {
+		_selected_item = lbCurSel 110;
+	};
+	
 	_affordable = false;
 	_squad_full = false;
 	if ((buildtype == 1) && (count (units group player) >= GRLIB_max_squad_size)) then {

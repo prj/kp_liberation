@@ -1,4 +1,4 @@
- waitUntil {time > 1};
+waitUntil {time > 1};
 waitUntil {!isNil "GRLIB_all_fobs"};
 waitUntil {!isNil "save_is_loaded"};
 

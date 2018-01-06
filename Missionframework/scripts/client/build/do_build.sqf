@@ -272,7 +272,7 @@ while { true } do {
 
 				deleteVehicle _vehicle;
 
-				if (_spaceSum < _crateSum) then {
+				if (_spaceSum < _crateSum && !KP_liberation_alt_income) then {
 					hint localize "STR_CANCEL_ERROR";
 				} else {
 					[_price_s, _price_a, _price_f, _storage_areas] remoteExec ["cancel_build_remote_call",2];

@@ -48,6 +48,7 @@ if ((_price_s > 0) || (_price_a > 0) || (_price_f > 0)) then {
 			if ((_price_s == 0) && (_price_a == 0) && (_price_f == 0)) exitWith {};
 		} forEach _storage_areas;
 	} else {
-		resources_ammo = resources_ammo + _price;
+		resources_ammo = resources_ammo + _price_a;
+		please_recalculate = true;
 	};
 };

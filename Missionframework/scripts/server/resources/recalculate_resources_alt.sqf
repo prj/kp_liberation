@@ -17,7 +17,8 @@ while { true } do {
 				if ( ( _x distance startbase > 250 ) && ( _x distance ( getmarkerpos GRLIB_respawn_marker) > 100 ) && ( alive _x ) ) then {
 					_unit = _x;
 					{
-						if ( ( _x select 0 ) == typeof _unit ) then {
+						_var2 = _unit getVariable "KP_liberation_preplaced";
+						if ( ( _x select 0 ) == typeof _unit && isNil "_var2") then {
 							_new_manpower_used = _new_manpower_used + (_x select 1);
 							_new_fuel_used = _new_fuel_used + (_x select 3);
 						};
